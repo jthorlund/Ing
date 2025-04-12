@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      max-width: 400px;
+      margin: auto;
+    }
+    input, button {
+      width: 100%;
+      padding: 0.6rem;
+      margin: 0.5rem 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>Log ind</h2>
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Adgangskode">
+  <button onclick="login()">Log ind</button>
+  <p id="status"></p>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+    const supabaseUrl = 'https://YOUR-SUPABASE-URL.supabase.co'
+    const supabaseKey = 'YOUR-ANON-KEY'
+    const supabase = createClient(supabaseUrl, supabaseKey)
+
+    async function login() {
+      const email = document.getElementById('email').value
+      const password = document.getElementById('password').value
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      })
+
+      if (error) {
+        document.getElementById('status').textContent = 'Fejl: ' + error.message
+      } else {
+        document.getElementById('status').textContent = 'Logget ind som: ' + data.user.email
+        // Du kan her redirecte til din profilside
+      }
+    }
+  </script>
+</body>
+</html>
