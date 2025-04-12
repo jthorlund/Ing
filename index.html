@@ -9,7 +9,7 @@
         // Initialiser Supabase med din URL og anon key
         const supabaseUrl = 'https://rjubqsxkpptyijnvcvft.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqdWJxc3hrcHB0eWlqbnZjdmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQzODQ0NjIsImV4cCI6MjA1OTk2MDQ2Mn0.WYTT_ZZTdgYfbEfwwGxSZzTO2yVXZg_d1KZvFK5tufY';
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        const client = window.supabase.createClient(supabaseUrl, supabaseKey); // brug andet navn
 
         // Login funktion
         async function login() {
@@ -18,7 +18,7 @@
 
             console.log("🔑 Forsøger login med:", email);
 
-            const { data, error } = await supabase.auth.signInWithPassword({
+            const { data, error } = await client.auth.signInWithPassword({
                 email: email,
                 password: password
             });
