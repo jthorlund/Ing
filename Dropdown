@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valg af profiltype</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <label for="profiltype">Valg af profiltype:</label>
+    <select id="profiltype">
+        <option value="">Vælg en profiltype</option>
+    </select>
+
+    <script>
+        // Funktion til at hente og parse CSV data
+        function hentDataFraCSV() {
+            var url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR47kXnSs8Lcmv4aJ3kXKFA17A3zMFZu6s-WTmCVd_4oxpYXeO7Y7nwnxhXqXeZEECcFaqRbklLWu7P/pub?output=csv';
+
+            // Brug AJAX til at hente CSV-filen
+            $.ajax({
+                url: url,
+                dataType: 'text',
+                success: function(data) {
+                    var lines = data.split('\n'); // Split CSV data i linjer
+                    var dropdown = $('#profiltype'); // Dropdown-elementet
+
+                    // Loop igennem linjerne og tilføj profiler fra første kolonne (A3-A16)
+                    for (var i = 1; i < lines.length; i++) {
+                        var line = lines[i].trim();
+                        if (line) {
+                            var columns = line.split(','); // Split hver linje ved komma
+                            var profiltype = columns[0].trim(); // Vi tager kun den første kolonne
+
+                            // Tilføj en option til dropdown
+                            dropdown.append('<option value="' + profiltype + '">' + profiltype + '</option>');
+                        }
+                    }
+                }
+            });
+        }
+
+        // Kald funktionen når siden er klar
+        $(document).ready(function() {
+            hentDataFraCSV();
+        });
+    </script>
+
+</body>
+</html>
