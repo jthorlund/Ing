@@ -1,54 +1,46 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.16.0/dist/umd/supabase.min.js"></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 2rem;
-      max-width: 400px;
-      margin: auto;
-    }
-    input, button {
-      width: 100%;
-      padding: 0.6rem;
-      margin: 0.5rem 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Supabase</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.16.0/dist/umd/supabase.min.js"></script>
+    <script>
+        // Initialiser Supabase med din URL og anon key
+        const supabaseUrl = 'DIN_SUPABASE_URL';  // Erstat med din Supabase URL
+        const supabaseKey = 'DIN_ANON_KEY';  // Erstat med din Supabase anon key
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Login funktion
+        async function login() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                alert('Fejl ved login: ' + error.message);
+            } else {
+                alert('Login succesfuld!');
+                // Du kan nu navigere til en anden side eller vise en succes-besked
+                window.location.href = "dashboard.html"; // Eksempelvis en "dashboard" side
+            }
+        }
+    </script>
 </head>
 <body>
-  <h2>Log ind</h2>
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Adgangskode">
-  <button onclick="login()">Log ind</button>
-  <p id="status"></p>
-
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-
-    const supabaseUrl = 'https://YOUR-SUPABASE-URL.supabase.co'
-    const supabaseKey = 'YOUR-ANON-KEY'
-    const supabase = createClient(supabaseUrl, supabaseKey)
-
-    async function login() {
-      const email = document.getElementById('email').value
-      const password = document.getElementById('password').value
-
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      })
-
-      if (error) {
-        document.getElementById('status').textContent = 'Fejl: ' + error.message
-      } else {
-        document.getElementById('status').textContent = 'Logget ind som: ' + data.user.email
-        // Du kan her redirecte til din profilside
-      }
-    }
-  </script>
+    <h1>Login</h1>
+    <form id="loginForm" onsubmit="event.preventDefault(); login();">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required />
+        <br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" required />
+        <br><br>
+        <button type="submit">Login</button>
+    </form>
 </body>
 </html>
