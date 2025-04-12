@@ -3,10 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.16.0/dist/umd/supabase.min.js"></script>
+    <script>
+        // Initialiser Supabase med din URL og anon key
+        const supabaseUrl = 'https://rjubqsxkpptyijnvcvft.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqdWJxc3hrcHB0eWlqbnZjdmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQzODQ0NjIsImV4cCI6MjA1OTk2MDQ2Mn0.WYTT_ZZTdgYfbEfwwGxSZzTO2yVXZg_d1KZvFK5tufY';
+        const client = supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Log ud funktion
+        async function logout() {
+            const { error } = await client.auth.signOut(); // Logger brugeren ud
+
+            if (error) {
+                alert('Fejl ved log ud: ' + error.message);
+            } else {
+                // Når log ud er succesfuldt, send brugeren til index.html
+                window.location.href = "index.html";
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>Velkommen til Dashboard</h1>
     <p>Du er nu logget ind.</p>
-    <a href="index.html">Log ud</a>
+    <button onclick="logout()">Log ud</button>
 </body>
 </html>
