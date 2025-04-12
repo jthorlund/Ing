@@ -2,7 +2,7 @@
 <html lang="da">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>Login</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.16.0/dist/umd/supabase.min.js"></script>
     <script>
         // Initialiser Supabase med din URL og anon key
@@ -10,42 +10,32 @@
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqdWJxc3hrcHB0eWlqbnZjdmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQzODQ0NjIsImV4cCI6MjA1OTk2MDQ2Mn0.WYTT_ZZTdgYfbEfwwGxSZzTO2yVXZg_d1KZvFK5tufY';
         const client = supabase.createClient(supabaseUrl, supabaseKey);
 
-        // Funktion til at tjekke om brugeren er logget ind
-        async function checkUser() {
-            const user = client.auth.user();
+        // Funktion til at logge brugeren ind
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-            if (!user) {
-                // Hvis brugeren ikke er logget ind, omdiriger til login-siden
-                window.location.href = "login.html";
-            } else {
-                // Hvis brugeren er logget ind, vis dashboard og tilføj link
-                document.getElementById("dropdown-link").style.display = "inline"; // Vis dropdown link
-            }
-        }
-
-        // Log ud funktion
-        async function logout() {
-            const { error } = await client.auth.signOut(); // Logger brugeren ud
+            const { user, error } = await client.auth.signInWithPassword({ email, password });
 
             if (error) {
-                alert('Fejl ved log ud: ' + error.message);
+                alert('Fejl ved login: ' + error.message);
             } else {
-                // Når log ud er succesfuldt, send brugeren til login-siden
-                window.location.href = "login.html";
+                // Hvis login er succesfuldt, send brugeren til Dashboard.html
+                window.location.href = "Dashboard.html";
             }
         }
-
-        // Kald funktionen for at tjekke om brugeren er logget ind når siden loader
-        window.onload = checkUser;
     </script>
 </head>
 <body>
-    <h1>Velkommen til Dashboard</h1>
-
-    <!-- Link til Dropdown.html, skjult indtil brugeren er logget ind -->
-    <a id="dropdown-link" href="Dropdown.html" style="display:none;">Gå til Dropdown</a>
-
-    <p>Du er nu logget ind.</p>
-    <button onclick="logout()">Log ud</button>
+    <h1>Login</h1>
+    <form onsubmit="event.preventDefault(); login();">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+        <br>
+        <button type="submit">Log ind</button>
+    </form>
 </body>
 </html>
