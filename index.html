@@ -3,44 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Supabase</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.16.0/dist/umd/supabase.min.js"></script>
-    <script>
-        // Initialiser Supabase med din URL og anon key
-        const supabaseUrl = 'DIN_SUPABASE_URL';  // Erstat med din Supabase URL
-        const supabaseKey = 'DIN_ANON_KEY';  // Erstat med din Supabase anon key
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-        // Login funktion
-        async function login() {
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password
-            });
-
-            if (error) {
-                alert('Fejl ved login: ' + error.message);
-            } else {
-                alert('Login succesfuld!');
-                // Du kan nu navigere til en anden side eller vise en succes-besked
-                window.location.href = "dashboard.html"; // Eksempelvis en "dashboard" side
-            }
-        }
-    </script>
+    <title>Welcome - My Site</title>
 </head>
 <body>
-    <h1>Login</h1>
-    <form id="loginForm" onsubmit="event.preventDefault(); login();">
-        <label for="email">Email:</label>
-        <input type="email" id="email" required />
-        <br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" required />
-        <br><br>
-        <button type="submit">Login</button>
-    </form>
+    <h1>Welcome to My Site!</h1>
+    <p>Click below to login:</p>
+    <a href="login.html">Go to Login</a>
 </body>
 </html>
